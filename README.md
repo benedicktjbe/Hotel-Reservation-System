@@ -12,25 +12,25 @@ This is a Hotel Reservation System simulation without using GUIs, and is made wi
     Add a clear commit message, and INFORM THE GROUP FIRST before pushing.
 
 # Navigating through GitHub
-1. Cloning a repository
+1. **Cloning a repository**
 
-    1. **If you do not have git installed yet, install it first via the install link:**
+   If you do not have git installed yet, install it first via the install link:
     [Git install link](https://git-scm.com/install/)
 
 
-    2. **Go to your repositories located at the left side of the GitHub Website, and click on the "Hotel-Reservation-System" repository.**
+   Go to your repositories located at the left side of the GitHub Website, and click on the "Hotel-Reservation-System" repository.
     ![repository image](Images/Repository.png)
 
 
-    3. **Click on "Code" then copy the HTTPS url**
+   **Click on "Code" then copy the HTTPS url**
     ![Click on "Code" then copy the HTTPS url](Images/Cloning.png)
 
 
-    4. **Go to GitHub and open an empty folder where you want the repository to be cloned. After, click on terminal then select "new terminal"**
+   Go to GitHub and open an empty folder where you want the repository to be cloned. After, click on terminal then select "new terminal"
     ![Go to GitHub and open an empty folder where you want the repository to be cloned. After, click on terminal then select "new terminal"](Images/NewTerminal.png)
 
 
-    5. **In the terminal, write the command "git clone" then paste the url of the repository you have copied.**
+   In the terminal, write the command "git clone" then paste the url of the repository you have copied.
     ![GitClone](Images/GitClone.png)
 
 
