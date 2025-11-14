@@ -12,7 +12,7 @@ This is a Hotel Reservation System simulation without using GUIs, and is made wi
     Add a clear commit message, and INFORM THE GROUP FIRST before pushing.
 
 # Navigating through GitHub
-A. Cloning a repository
+1. Cloning a repository
 
     1. If you do not have git installed yet, install it first via the install link:
     [Git install link](https://git-scm.com/install/)
