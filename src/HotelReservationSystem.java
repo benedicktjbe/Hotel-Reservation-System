@@ -26,20 +26,41 @@ public class HotelReservationSystem {
         switch (choice) {
             case 'A' -> {
                 //Check Room Availability Method
+                checkRoomAvailability();
             }
             case 'B' -> {
                 //Make New Reservation Method
+                newReservation();
             }
             case 'C' -> {
                 //Check-in Guest Method
+                checkInGuest();
             }
             case 'D' -> {
                 //Check-out Guest Method
+                checkOutGuest();
             }
             case 'E' -> {
-                System.out.println("Thank you for using our Hotel Reservatiuon System!");
+                System.out.println("Thank you for using our Hotel Reservation System!");
                 System.exit(0);
             }
         }
     }
+
+    public static void checkRoomAvailability(){
+
+    }
+
+    public static void newReservation(){
+
+    }
+
+    public static void checkInGuest(){
+
+    }
+
+    public static void checkOutGuest(){
+
+    }
+
 }
