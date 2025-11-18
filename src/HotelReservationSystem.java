@@ -36,7 +36,7 @@ public class HotelReservationSystem {
             } while (choice != 'A' && choice != 'B' && choice != 'C' && choice != 'D' && choice != 'E');
 
             switch (choice) {
-                case 'A' -> checkRoom();
+                case 'A' -> checkRoomAvailability();
                 case 'B' -> newReservation();
                 case 'C' -> checkInGuest();
                 case 'D' -> checkOutGuest();
@@ -67,7 +67,7 @@ public class HotelReservationSystem {
         }
     }
 
-    public static void checkRoom(){
+    public static void checkRoomAvailability(){
         String[][] standardRoom = {
                 { "     ", "Day 1","Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10" },
                 { "S101", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
