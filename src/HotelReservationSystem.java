@@ -36,13 +36,11 @@ public class HotelReservationSystem {
             } while (choice != 'A' && choice != 'B' && choice != 'C' && choice != 'D' && choice != 'E');
 
             switch (choice) {
-
                 case 'A' -> checkRoomAvailability();
                 case 'B' -> newReservation();
                 case 'C' -> checkInGuest();
                 case 'D' -> checkOutGuest();
                 case 'E' -> thankYou();
-
             }
 
             do {
