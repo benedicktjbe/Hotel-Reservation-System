@@ -171,6 +171,66 @@ public class HotelReservationSystem {
     }
 
     public static void newReservation(){
+        char roomType = ' '; 
+        String guestName = "";
+        double resvFee = 0.0;
+        double userPayment = 0.0;
+        double change = 0.0;
+        int bookedNights = 0;
+
+        System.out.println("\n--- Make New Reservation ---\n");
+        System.out.println("Enter Guest Name:");
+        guestName = sc.nextLine();
+        
+        System.out.println("""
+                                        -----------------------------------------
+                                        Please input the room type:
+                                            A. Standard
+                                            B. Deluxe
+                                            C. Suite
+                                        """);
+        roomType = sc.nextLine().toUpperCase().charAt(0);
+        
+        switch (roomType) {
+            case 'A': {
+                System.out.println("You have selected Standard Room. Resevation Fee: 2500");
+                checkRoomAvailability();
+                resvFee = 2500.00;
+                
+                System.out.println("Enter reservation payment: ");
+                userPayment = Double.parseDouble(sc.nextLine());
+
+                System.out.println("Enter number of nights booked: ");
+                bookedNights = Integer.parseInt(sc.nextLine());
+
+                if(userPayment < resvFee){
+                    System.out.println("Reservation payment is insufficient.");
+                    } else {
+                        change = userPayment - resvFee*bookedNights;
+                        System.out.println("\n --- Reservation Booked ---");
+                        System.out.println("Guest Name: " + guestName);
+                        System.out.println("Room Type: Standard Room");
+
+                    }
+                }
+                break;    
+            
+
+            case 'B': 
+                System.out.println("You have selected Deluxe Room.");
+                checkRoomAvailability();
+                resvFee = 4000.00;
+                break;               
+            case 'C': 
+                System.out.println("You have selected Suite Room.");
+                checkRoomAvailability();
+                resvFee = 8000.00;
+                break;               
+            default: {
+                invalidChoice();
+                break;
+            }    
+        }
 
     }
 
