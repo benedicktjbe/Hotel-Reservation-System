@@ -49,7 +49,9 @@ public class HotelReservationSystem {
         char choice = ' ';
 
         while (true) {
+
             hrLine();
+
             System.out.println("""
                                Welcome to the Hotel Reservation System!
                                Please choose an option:
@@ -72,7 +74,17 @@ public class HotelReservationSystem {
 
             switch (choice) {
                 case 'A' -> checkRoomAvailability();
-                case 'B' -> newReservation();
+                case 'B' -> {
+                    System.out.println("""
+                               Please choose a room to reserve:
+                                    A. Standard Room
+                                    B. Deluxe Room
+                                    C. Suite Room
+                               """);
+                    char roomType = sc.nextLine().toUpperCase().charAt(0);
+                    
+                    makeReservation(roomType);
+                } 
                 case 'C' -> checkInGuest();
                 case 'D' -> checkOutGuest();
                 case 'E' -> thankYou();
@@ -124,135 +136,66 @@ public class HotelReservationSystem {
         }
     }
 
-    public static void newReservation(){
-        char roomType = ' '; 
-        String guestName = "";
-        double resvFee = 0.0;
-        double userPayment = 0.0;
-        double change = 0.0;
-        double totalRFee = 0.0;
-        int bookedNights = 0;
+    public static void makeReservation(char roomType){
+        String room = " ";
+        String[][] arrRoom = null;
 
-        System.out.println("\n--- Make New Reservation ---\n");
-        System.out.println("Enter Guest Name:");
-        guestName = sc.nextLine();
-
-        hrLine();
-        System.out.println("""
-                            Please input the room type:
-                                A. Standard
-                                B. Deluxe
-                                C. Suite
-                            """);
-        roomType = sc.nextLine().toUpperCase().charAt(0);
+        int fee = 0;
         
         switch (roomType) {
-            case 'A' ->  {
-                System.out.println("You have selected Standard Room. Reservation Fee: 2500");
-                displayRoom(standardRoom);  
-                resvFee = 2500.00;
-                
-                System.out.println("Enter number of nights booked: ");
-                bookedNights = Integer.parseInt(sc.nextLine());
-
-                totalRFee = resvFee*bookedNights;
-            
-                //update room status to 'booked'
-                //assihn guestname and details to room
-
-                do{
-                    System.out.println("Fee: " + totalRFee);                    
-                    System.out.println("Enter reservation payment: ");
-                    userPayment = Double.parseDouble(sc.nextLine());                    
-                    if(userPayment < totalRFee){
-                        System.out.println("Reservation payment is insufficient.");
-                    }
-                }while(userPayment < totalRFee);
- 
-                change = userPayment - totalRFee;                
-
-                System.out.println("\n --- Reservation Booked ---");
-                System.out.println("Guest Name: " + guestName);
-                System.out.println("Room Type: Standard Room");
-                System.out.println("Room No.:");
-                System.out.println("Total Reservation Fee: " + totalRFee);
-                System.out.println("Change: " + change);
-                    
-}   
-            
-
-            case 'B' -> { 
-                System.out.println("You have selected Deluxe Room.");
-                displayRoom(deluxeRoom);
-                resvFee = 4000.00;
-
-                System.out.println("Enter number of nights booked: ");
-                bookedNights = Integer.parseInt(sc.nextLine());
-
-                totalRFee = resvFee*bookedNights;
-
-                do{
-                    System.out.println("Fee: " + totalRFee);                    
-                    System.out.println("Enter reservation payment: ");
-                    userPayment = Double.parseDouble(sc.nextLine());                    
-                    if(userPayment < totalRFee){
-                        System.out.println("Reservation payment is insufficient.");
-                    }
-                }while(userPayment < totalRFee);
-                
-                change = userPayment - totalRFee;
-                
-                System.out.println("\n --- Reservation Booked ---");
-                System.out.println("Guest Name: " + guestName);
-                System.out.println("Room Type: Deluxe Room");
-                System.out.println("Room No.:");
-                System.out.println("Total Reservation Fee: " + totalRFee);
-                System.out.println("Change: " + change);
+            case 'A' -> {
+                room = "Standard";
+                arrRoom = standardRoom;
+                fee = 2500;
             }
-                
-                
-            case 'C' -> { 
-                System.out.println("You have selected Suite Room.");
-                displayRoom(suiteRoom);
-                resvFee = 8000.00;
-
-                System.out.println("Enter number of nights booked: ");
-                bookedNights = Integer.parseInt(sc.nextLine());
-
-                totalRFee = resvFee*bookedNights;
-
-                do{
-                    System.out.println("Fee: " + totalRFee);                    
-                    System.out.println("Enter reservation payment: ");
-                    userPayment = Double.parseDouble(sc.nextLine());                    
-                    if(userPayment < totalRFee){
-                        System.out.println("Reservation payment is insufficient.");
-                    }
-                }while(userPayment < totalRFee);
-                
-                change = userPayment - totalRFee;
-                
-                System.out.println("\n --- Reservation Booked ---");
-                System.out.println("Guest Name: " + guestName);
-                System.out.println("Room Type: Suite Room");
-                System.out.println("Room No.:");
-                System.out.println("Total Reservation Fee: " + totalRFee);
-                System.out.println("Change: " + change);
+            case 'B' -> {
+                room = "Deluxe";
+                arrRoom = deluxeRoom;
+                fee = 4000;
             }
-
-            default ->  {
-                invalidChoice();
-            }    
+            case 'C' -> {
+                room = "Suite";
+                arrRoom = suiteRoom;
+                fee = 8000;
+            }
         }
 
-    }
+        System.out.println("You have selected " + room + "room");
+        System.out.print("Please enter your name: ");
+        String name = sc.nextLine();
+        System.out.print("Please input the day you would like to book (1-10): ");
+        int bookDay = Integer.parseInt(sc.nextLine());
+        System.out.print("Please input how many days you would like to book: ");
+        int bookTime = Integer.parseInt(sc.nextLine());
+        System.out.print("Please input the last number of the room you would like to book: ");
+        int roomNum = Integer.parseInt(sc.nextLine());
 
-    public static void checkInGuest(){
+        int resFee = fee * bookTime;
 
-    }
+        hrLine();
 
-    public static void checkOutGuest(){
+        System.out.println("Reservation Summary");
+        System.out.println("Guest Name: " + name);
+        System.out.println("Room Type: " + room);
+        System.out.println("Room number assigned: " + arrRoom[roomNum][0]);
+        System.out.println("Nights booked: " + bookTime);
+        System.out.println("Total Reservation Fee (Due Now): " + resFee);
+        System.out.println();
 
+        arrRoom[roomNum][bookDay] = "Booked";
+
+        for (int book = 1; book < bookTime; book++) {
+            arrRoom[roomNum][bookDay + 1] = "Booked";
+        }
+
+        for (String[] row : standardRoom) {
+            for (String col : row) {
+                System.out.print(col + "\t");
+            }
+            System.out.println();
+        }
+        
+        System.out.println("Booking Successful!");
     }
 
     public static void hrLine(){
@@ -296,5 +239,13 @@ public class HotelReservationSystem {
         if (loopchoice == 'N'){
             thankYou();
         }
+    }
+
+    private static void checkInGuest() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private static void checkOutGuest() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
