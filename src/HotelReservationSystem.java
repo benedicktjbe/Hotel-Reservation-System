@@ -156,7 +156,12 @@ public class HotelReservationSystem {
             case 'C' -> {
                 room = "Suite";
                 arrRoom = suiteRoom;
+                
                 fee = 8000;
+            }
+            default -> {
+                System.out.println("Invalid room type selected! ");
+                return;
             }
         }
 
@@ -182,13 +187,13 @@ public class HotelReservationSystem {
         System.out.println("Total Reservation Fee (Due Now): " + resFee);
         System.out.println();
 
-        arrRoom[roomNum][bookDay] = "Booked";
+        arrRoom[roomNum][bookDay] = name;
 
         for (int book = 1; book < bookTime; book++) {
-            arrRoom[roomNum][bookDay + 1] = "Booked";
+            arrRoom[roomNum][bookDay + 1] = name;
         }
 
-        for (String[] row : standardRoom) {
+        for (String[] row : arrRoom) {
             for (String col : row) {
                 System.out.print(col + "\t");
             }
