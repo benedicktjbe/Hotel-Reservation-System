@@ -138,6 +138,7 @@ public class HotelReservationSystem {
         double resvFee = 0.0;
         double userPayment = 0.0;
         double change = 0.0;
+        double totalRFee = 0.0;
         int bookedNights = 0;
 
         System.out.println("\n--- Make New Reservation ---\n");
@@ -156,38 +157,99 @@ public class HotelReservationSystem {
         switch (roomType) {
             case 'A': {
                 System.out.println("You have selected Standard Room. Reservation Fee: 2500");
-                checkRoomAvailability();
+                displayRoom(standardRoom);  
                 resvFee = 2500.00;
                 
-                System.out.println("Enter reservation payment: ");
-                userPayment = Double.parseDouble(sc.nextLine());
-
                 System.out.println("Enter number of nights booked: ");
                 bookedNights = Integer.parseInt(sc.nextLine());
 
-                if(userPayment < resvFee){
-                    System.out.println("Reservation payment is insufficient.");
-                    } else {
-                        change = userPayment - resvFee*bookedNights;
-                        System.out.println("\n --- Reservation Booked ---");
-                        System.out.println("Guest Name: " + guestName);
-                        System.out.println("Room Type: Standard Room");
+                totalRFee = resvFee*bookedNights;
+            
+                //update room status to 'booked'
+                //assihn guestname and details to room
 
+                do{
+                    System.out.println("Fee: " + totalRFee);                    
+                    System.out.println("Enter reservation payment: ");
+                    userPayment = Double.parseDouble(sc.nextLine());                    
+                    if(userPayment < totalRFee){
+                        System.out.println("Reservation payment is insufficient.");
                     }
-                }
-                break;    
+                }while(userPayment < totalRFee);
+ 
+                change = userPayment - totalRFee;                
+
+                System.out.println("\n --- Reservation Booked ---");
+                System.out.println("Guest Name: " + guestName);
+                System.out.println("Room Type: Standard Room");
+                System.out.println("Room No.:");
+                System.out.println("Total Reservation Fee: " + totalRFee);
+                System.out.println("Change: " + change);
+                    
+            break;}   
             
 
             case 'B': 
                 System.out.println("You have selected Deluxe Room.");
-                checkRoomAvailability();
+                displayRoom(deluxeRoom);
                 resvFee = 4000.00;
-                break;               
+
+                System.out.println("Enter number of nights booked: ");
+                bookedNights = Integer.parseInt(sc.nextLine());
+
+                totalRFee = resvFee*bookedNights;
+
+                do{
+                    System.out.println("Fee: " + totalRFee);                    
+                    System.out.println("Enter reservation payment: ");
+                    userPayment = Double.parseDouble(sc.nextLine());                    
+                    if(userPayment < totalRFee){
+                        System.out.println("Reservation payment is insufficient.");
+                    }
+                }while(userPayment < totalRFee);
+ 
+                change = userPayment - totalRFee;                
+
+                System.out.println("\n --- Reservation Booked ---");
+                System.out.println("Guest Name: " + guestName);
+                System.out.println("Room Type: Deluxe Room");
+                System.out.println("Room No.:");
+                System.out.println("Total Reservation Fee: " + totalRFee);
+                System.out.println("Change: " + change);
+
+                break;
+                
+                
             case 'C': 
                 System.out.println("You have selected Suite Room.");
-                checkRoomAvailability();
+                displayRoom(suiteRoom);
                 resvFee = 8000.00;
-                break;               
+
+                System.out.println("Enter number of nights booked: ");
+                bookedNights = Integer.parseInt(sc.nextLine());
+
+                totalRFee = resvFee*bookedNights;
+
+                do{
+                    System.out.println("Fee: " + totalRFee);                    
+                    System.out.println("Enter reservation payment: ");
+                    userPayment = Double.parseDouble(sc.nextLine());                    
+                    if(userPayment < totalRFee){
+                        System.out.println("Reservation payment is insufficient.");
+                    }
+                }while(userPayment < totalRFee);
+ 
+                change = userPayment - totalRFee;                
+
+                System.out.println("\n --- Reservation Booked ---");
+                System.out.println("Guest Name: " + guestName);
+                System.out.println("Room Type: Suite Room");
+                System.out.println("Room No.:");
+                System.out.println("Total Reservation Fee: " + totalRFee);
+                System.out.println("Change: " + change);
+
+                break;    
+
             default: {
                 invalidChoice();
                 break;
