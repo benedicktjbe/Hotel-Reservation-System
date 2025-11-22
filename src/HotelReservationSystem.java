@@ -265,11 +265,110 @@ public class HotelReservationSystem {
         }
     }
 
-    private static void checkInGuest() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static void checkInGuest() {
+        char roomType = ' ';
+        String guestName = "";
+        String roomNumber = "";
+        double roomRate = 0.0;
+        double userPayment = 0.0;
+        double change = 0.0;
+
+        System.out.println("\n--- Check-In Guest (Walk-in) ---\n");
+        System.out.print("Enter Guest Name: ");
+        guestName = sc.nextLine();
+
+        hrLine();
+        System.out.println("""
+                        Please input the room type:
+                            A. Standard
+                            B. Deluxe
+                            C. Suite
+                        """);
+
+        do {
+            System.out.print("Enter your choice here: ");
+            String typeInput = sc.nextLine();
+
+            if (typeInput.length() == 1) {
+                roomType = typeInput.toUpperCase().charAt(0);
+            }
+            if (roomType != 'A' && roomType != 'B' && roomType != 'C') {
+                invalidChoice();
+            }
+
+        } while (roomType != 'A' && roomType != 'B' && roomType != 'C');
+
+        String[][] chosenRooms = null;
+        String roomLabel = "";
+
+        switch (roomType) {
+            case 'A':
+                chosenRooms = standardRoom;
+                roomLabel = "Standard Room";
+                roomRate = 2500.00;
+                System.out.println("You have selected Standard Room. Rate per night: " + roomRate);
+                displayRoom(roomType);
+                break;
+
+            case 'B':
+                chosenRooms = deluxeRoom;
+                roomLabel = "Deluxe Room";
+                roomRate = 4000.00;
+                System.out.println("You have selected Deluxe Room. Rate per night: " + roomRate);
+                displayRoom(roomType);
+                break;
+
+            case 'C':
+                chosenRooms = suiteRoom;
+                roomLabel = "Suite Room";
+                roomRate = 8000.00;
+                System.out.println("You have selected Suite Room. Rate per night: " + roomRate);
+                displayRoom(roomType);
+                break;
+        }
+
+        System.out.print("\nEnter Room Number: ");
+        roomNumber = sc.nextLine().toUpperCase();
+
+        int roomRow = -1;
+        for (int row = 1; row < chosenRooms.length; row++) {
+            if (chosenRooms[row][0].equalsIgnoreCase(roomNumber)) {
+                roomRow = row;
+                break;
+            }
+        }
+        int bookedNights = nightValidator();
+        int startDay = dayValidator(bookedNights);
+        roomRow = findAvailableRoomRow(chosenRooms, startDay, bookedNights);
+
+        if (roomRow == -1) {
+            System.out.println("Invalid room number for " + roomLabel + ".");
+            return;
+        }
+
+        if (!chosenRooms[roomRow][1].equalsIgnoreCase("Free")) {
+            System.out.println("Room " + roomNumber + " is not available. Current status: " + chosenRooms[roomRow][1]);
+            return;
+        }
+
+        System.out.println("\nTotal Fee: " + roomRate*bookedNights);
+        userPayment = readPayment(roomRate);
+        change = userPayment - roomRate;
+
+        hrLine();
+        System.out.println("\n--- Check-In Successful ---");
+        System.out.println("Guest Name: " + guestName);
+        System.out.println("Room No.: " + roomNumber);
+        System.out.println("Stay: Day " + startDay + " to Day " + (startDay + bookedNights));
+        System.out.println("Room Type: " + roomLabel);
+        System.out.println("Payment Received: " + userPayment);
+        System.out.println("Change: " + change);
+        chosenRooms[roomRow][1] = "Occupied";
+
+
     }
 
-    private static void checkOutGuest() {
+    public static void checkOutGuest() {
         String[][] arrRoom = null;
         System.out.print("Please select your room type: ");
         System.out.println("A. Standard Room");
@@ -357,5 +456,86 @@ public class HotelReservationSystem {
         }
 
         displayRoom(room);
+    }
+
+    public static boolean isWholeNumber(String input){
+        if (input == null || input.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int nightValidator(){
+        int nights = 0;
+        while (nights <= 0 || nights > 10) {
+            System.out.print("Enter number of nights booked (1-10): ");
+            String input = sc.nextLine();
+            if (isWholeNumber(input)) {
+                nights = Integer.parseInt(input);
+            }
+            if (nights <= 0 || nights > 10) {
+                System.out.println("Please enter between 1 and 10 nights.");
+            }
+        }
+        return nights;
+    }
+
+    public static int dayValidator(int nights) {
+        int startDay = 0;
+
+        while (startDay < 1 || startDay > 10) {
+            System.out.print("Enter starting day (1-10): ");
+            String input = sc.nextLine();
+
+            if (isWholeNumber(input)) {
+                startDay = Integer.parseInt(input);
+            }
+
+            if (startDay < 1 || startDay > 10) {
+                System.out.println("Please enter a number between 1 and 10.");
+            }
+        }
+
+        return startDay;
+    }
+
+    public static int findAvailableRoomRow(String[][] rooms, int startDay, int nights){
+        for (int row = 1; row < rooms.length; row++) {
+            boolean free = true;
+            for (int day = startDay; day < startDay + nights; day++) {
+                if (!rooms[row][day].equalsIgnoreCase("Free")) {
+                    free = false;
+                    break;
+                }
+            }
+            if (free) {
+                return row;
+            }
+        }
+        return -1;
+    }
+
+    public static void markBooking(String[][] rooms, int row, int startDay, int nights, String guestName){
+        for (int day = startDay; day < startDay + nights; day++) {
+            rooms[row][day] = "Booked";
+        }
+    }
+
+    public static double readPayment(double due){
+        double pay = -1;
+        while (pay < due) {
+            System.out.print("Enter payment: ");
+            String input = sc.nextLine();
+            pay = Double.parseDouble(input);
+            if (pay < due) {
+                System.out.println("Payment is insufficient. Amount due: " + due);
+            }
+        }
+        return pay;
     }
 }
