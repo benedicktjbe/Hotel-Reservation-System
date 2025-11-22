@@ -45,10 +45,13 @@ public class HotelReservationSystem {
 
     static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        char choice = ' ';
+    static boolean loop = true;
 
-        while (true) {
+    public static void main(String[] args) {
+        char choice;
+        int choiceType = 0;
+
+        while (loop) {
 
             hrLine();
 
@@ -63,14 +66,9 @@ public class HotelReservationSystem {
                                """);
 
             do {
-                System.out.print("Enter your choice here: ");
-                choice = sc.nextLine().toUpperCase().charAt(0);
-
-                if ("ABCDE".indexOf(choice) == -1) {
-                        invalidChoice();
-                } 
-
-            } while ("ABCDE".indexOf(choice) == -1);
+                enterChoice();
+                choice = inputChar(choiceType);
+            } while (choiceType(choiceType).indexOf(choice) == -1);
 
             switch (choice) {
                 case 'A' -> checkRoomAvailability();
@@ -80,12 +78,24 @@ public class HotelReservationSystem {
                 case 'E' -> thankYou();
             }
 
+            hrLine();
             loop();
 
         }
     }
 
+    public static void displayRoom(String[][] displayRoom){
+        for (String[] rows : displayRoom) {
+            for (String col : rows) {
+                System.out.print(col + "\t");
+            }
+            System.out.println();
+        }
+    }
+
     public static void checkRoomAvailability(){
+        char checkRoom;
+        int choiceType = 1;
         char checkRoomChoice = ' ';
         String RoomType = " ";
         int TotalRooms = 0, fee = 0;
@@ -99,15 +109,9 @@ public class HotelReservationSystem {
                             """);
 
         do {
-            System.out.print("Enter your choice here: ");
-            checkRoomChoice = sc.nextLine().toUpperCase().charAt(0);
-
-            
-            if ("ABC".indexOf(checkRoomChoice) == -1) {
-                invalidChoice();
-            } 
-
-        } while ("ABC".indexOf(checkRoomChoice) == -1);
+            enterChoice();
+            checkRoom = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(checkRoom) == -1);
 
         hrLine();
 
@@ -126,7 +130,7 @@ public class HotelReservationSystem {
                 RoomType = "Suite";
                 TotalRooms = 5;
                 fee = 8000;
-            } 
+            }
         }
 
         System.out.println("Room Availability Status");
@@ -140,12 +144,13 @@ public class HotelReservationSystem {
     }
 
     public static void makeReservation(){
-        String room = null;
+        String room = "";
         String[][] arrRoom = null;
 
-        int bookDay, bookTime, roomNum, fee, resFee = 0;
+        char roomType;
+        int choiceType = 1;
 
-        boolean logic = true;
+        int bookDay, bookTime, roomNum, fee = 0, resFee;
 
         System.out.println("""
                                Please choose a room to reserve:
@@ -153,9 +158,11 @@ public class HotelReservationSystem {
                                     B. Deluxe Room
                                     C. Suite Room
                                """);
+        do {
+            enterChoice();
+            roomType = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(roomType) == -1);
 
-        char roomType = sc.nextLine().toUpperCase().charAt(0);
-        
         switch (roomType) {
             case 'A' -> {
                 room = "Standard";
@@ -170,31 +177,35 @@ public class HotelReservationSystem {
             case 'C' -> {
                 room = "Suite";
                 arrRoom = suiteRoom;
+                
                 fee = 8000;
-            }
-            default -> {
-                System.out.println("Invalid room type selected! ");
-                return;
             }
         }
 
-        System.out.println("You have selected " + room + "room");
+        hrLine();
+        System.out.println("You have selected " + room + " room");
+        hrLine();
+
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
-        do {
-            System.out.print("Please input the day you would like to book: ");
-            bookDay = Integer.parseInt(sc.nextLine());
-            System.out.print("Please input how many days you would like to book: ");
-            bookTime = Integer.parseInt(sc.nextLine());
+        while (name.length() < 4){
+            name = name+" ";
+        }
 
-            if (bookTime > 11 - bookDay || bookTime < 0 || bookDay < 0) {
-                logic = false;
-                invalidChoice();
-            }
-        } while (!logic);
-        
-        System.out.print("Please input the last number of the room you would like to book: ");
-        roomNum = Integer.parseInt(sc.nextLine());
+        do {
+            System.out.print("Please input the day you would like to book (1-10): ");
+            bookDay = inputNum(1,10);
+        } while (numCondition(bookDay,1,10));
+
+        do {
+            System.out.print("Please input how many days you would like to book: ");
+            bookTime = inputNum(1,11-bookDay);
+        } while (numCondition(bookTime,1,11-bookDay));
+
+        do {
+            System.out.print("Please input the last number of the room you would like to book: ");
+            roomNum = inputNum(1,10);
+        } while (numCondition(roomNum,1,10));
 
         resFee = fee * bookTime;
 
@@ -214,14 +225,125 @@ public class HotelReservationSystem {
             arrRoom[roomNum][bookDay + book] = name;
         }
 
-        for (String[] row : arrRoom) {
-            for (String col : row) {
-                System.out.print(col + "\t");
-            }
-            System.out.println();
-        }
-        
+        displayRoom(arrRoom);
+
+        hrLine();
         System.out.println("Booking Successful!");
+    }
+
+    static void hrLine(){
+        System.out.println("-----------------------------------------");
+    }
+
+    static void enterChoice(){
+        System.out.print("Enter your choice here: ");
+    }
+
+    static String choiceType(int type){
+        String[] choices = new String[]{"ABCDE", "ABC", "YN"};
+        return choices[type];
+    }
+
+    public static char inputChar(int type){
+        char out = ' ';
+
+        String input = sc.nextLine();
+
+        if (input.length() == 1) {
+            out = input.toUpperCase().charAt(0);
+
+            if (choiceType(type).indexOf(out) == -1) {
+                invalidInput();
+            }
+        } else {
+            invalidInput();
+        }
+        return out;
+    }
+
+    static boolean numCondition(int num, int cond1, int cond2){
+        return (num < cond1 || num > cond2);
+    }
+
+    public static int inputNum(int cond1, int cond2){
+        int num = 0;
+
+        String input = sc.nextLine();
+
+        if (input.matches("\\d+")){
+            num = Integer.parseInt(input);
+
+            if (numCondition(num, cond1, cond2)) {
+                invalidInput();
+            }
+        } else {
+            invalidInput();
+        }
+
+        return num;
+    }
+
+    static void invalidInput(){
+        hrLine();
+        System.out.println("Invalid input. Please try again.");
+        hrLine();
+    }
+
+    static void thankYou(){
+        hrLine();
+        System.out.println("Thank you for using our Hotel Reservation System!");
+        hrLine();
+        loop = false;
+    }
+
+    static void loop(){
+        char loopChoice;
+        int choiceType = 2;
+
+        do {
+            System.out.print("Run System Again? (Y/N): ");
+
+            loopChoice = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(loopChoice) == -1);
+
+        if (loopChoice == 'N'){
+            thankYou();
+        }
+    }
+
+    public static int findAvailableRoomRow(String[][] rooms, int startDay, int nights){
+        for (int row = 1; row < rooms.length; row++) {
+            boolean free = true;
+            for (int day = startDay; day < startDay + nights; day++) {
+                if (!rooms[row][day].equalsIgnoreCase("Free")) {
+                    free = false;
+                    break;
+                }
+            }
+            if (free) {
+                return row;
+            }
+        }
+        return -1;
+    }
+
+    public static void markBooking(String[][] rooms, int row, int startDay, int nights, String guestName){
+        for (int day = startDay; day < startDay + nights; day++) {
+            rooms[row][day] = "Booked";
+        }
+    }
+
+    public static double readPayment(double due){
+        double pay = -1;
+        while (pay < due) {
+            System.out.print("Enter payment: ");
+            String input = sc.nextLine();
+            pay = Double.parseDouble(input);
+            if (pay < due) {
+                System.out.println("Payment is insufficient. Amount due: " + due);
+            }
+        }
+        return pay;
     }
 
     public static void checkInGuest() {
@@ -252,7 +374,7 @@ public class HotelReservationSystem {
                 roomType = typeInput.toUpperCase().charAt(0);
             }
             if (roomType != 'A' && roomType != 'B' && roomType != 'C') {
-                invalidChoice();
+                invalidInput();
             }
 
         } while (roomType != 'A' && roomType != 'B' && roomType != 'C');
@@ -346,7 +468,7 @@ public class HotelReservationSystem {
         String roomNum = null;
 
         switch(room) {
-            case 'A' -> { 
+            case 'A' -> {
                 arrRoom = standardRoom;
                 fee = 2500;
             }
@@ -359,10 +481,10 @@ public class HotelReservationSystem {
                 fee = 8000;
             }
         }
-        
+
         for (int row = 0; row < arrRoom.length; row++) {
             for (int col = 0; col < arrRoom[row].length; col++) {
-                
+
                 boolean check = arrRoom[row][col].equals(name);
 
                 if (check) {
@@ -382,14 +504,14 @@ public class HotelReservationSystem {
         System.out.print("Input payment amount: ");
         double payment = Double.parseDouble(sc.nextLine());
 
-        do { 
+        do {
             if (payment < totalAmt) {
                 System.out.println("Insufficient amount!");
                 System.out.print("Please re-enter payment amount: ");
                 payment = Double.parseDouble(sc.nextLine());
-            } 
+            }
 
-        } while (payment < totalAmt); 
+        } while (payment < totalAmt);
 
         double change = payment - totalAmt;
 
@@ -405,7 +527,7 @@ public class HotelReservationSystem {
 
         for (int row = 0; row < arrRoom.length; row++) {
             for (int col = 0; col < arrRoom[row].length; col++) {
-                
+
                 boolean check = arrRoom[row][col].equals(name);
 
                 if (check) {
@@ -461,106 +583,5 @@ public class HotelReservationSystem {
         }
 
         return startDay;
-    }
-
-    public static void displayRoom(char room){
-        String[][] arrRoom = null;
-
-        switch (room) {
-            case 'A' -> {
-                arrRoom = standardRoom;
-            }
-            case 'B' -> {
-                arrRoom = deluxeRoom;
-            }
-            case 'C' -> {
-                arrRoom = suiteRoom;
-            }
-        }
-
-        for (String[] row : arrRoom) {
-            for (String col : row) {
-                System.out.print(col + "\t");
-            }
-            System.out.println();
-        }
-    }
-
-    public static int findAvailableRoomRow(String[][] rooms, int startDay, int nights){
-        for (int row = 1; row < rooms.length; row++) {
-            boolean free = true;
-            for (int day = startDay; day < startDay + nights; day++) {
-                if (!rooms[row][day].equalsIgnoreCase("Free")) {
-                    free = false;
-                    break;
-                }
-            }
-            if (free) {
-                return row;
-            }
-        }
-        return -1;
-    }
-
-    public static void markBooking(String[][] rooms, int row, int startDay, int nights, String guestName){
-        for (int day = startDay; day < startDay + nights; day++) {
-            rooms[row][day] = "Booked";
-        }
-    }
-
-    public static double readPayment(double due){
-        double pay = -1;
-        while (pay < due) {
-            System.out.print("Enter payment: ");
-            String input = sc.nextLine();
-            pay = Double.parseDouble(input);
-            if (pay < due) {
-                System.out.println("Payment is insufficient. Amount due: " + due);
-            }
-        }
-        return pay;
-    }
-
-    public static void hrLine(){
-        System.out.println("-----------------------------------------");
-    }
-
-    public static void invalidChoice(){
-        hrLine();
-        System.out.println("Invalid choice. Please try again.");
-        hrLine();
-    }
-
-    public static void thankYou(){
-        hrLine();
-        System.out.println("Thank you for using our Hotel Reservation System!");
-        hrLine();
-        System.exit(0);
-    }
-
-    public static void loop(){
-        String temploopchoice;
-        char loopchoice = ' ';
-
-        do {
-            hrLine();
-            System.out.print("Run System Again? (Y/N): ");
-
-            temploopchoice = sc.nextLine();
-
-            if (temploopchoice.length() == 1) {
-                loopchoice = temploopchoice.toUpperCase().charAt(0);
-
-                if (loopchoice != 'Y' && loopchoice != 'N') {
-                    invalidChoice();
-                }
-            } else {
-                invalidChoice();
-            }
-        } while (loopchoice != 'Y' && loopchoice != 'N');
-
-        if (loopchoice == 'N'){
-            thankYou();
-        }
     }
 }
