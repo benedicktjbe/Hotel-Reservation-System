@@ -12,7 +12,12 @@ public class HotelReservationSystem {
             { "S107", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
             { "S108", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
             { "S109", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "S110", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
+            { "S110", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "S111", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "S112", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "S113", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "S114", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "S115", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
     };
 
     static String[][] deluxeRoom = {
@@ -35,12 +40,7 @@ public class HotelReservationSystem {
             { "ST102", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
             { "ST103", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
             { "ST104", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST105", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST106", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST107", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST108", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST109", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST110", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
+            { "ST105", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
     };
 
     static Scanner sc = new Scanner(System.in);
@@ -97,7 +97,8 @@ public class HotelReservationSystem {
 
     public static void checkRoomAvailability(){
         char checkRoomChoice = ' ';
-        char checkRoom = ' ';
+        String RoomType = "";
+        int TotalRooms = 0, PricePerNight = 0;
 
         hrLine();
         System.out.println("""
@@ -119,6 +120,29 @@ public class HotelReservationSystem {
         } while ("ABC".indexOf(checkRoomChoice) == -1);
 
         hrLine();
+
+        switch (checkRoomChoice) {
+            case 'A':
+                RoomType = "Standard";
+                TotalRooms = 15;
+                PricePerNight = 2500;
+                break;
+            case 'B':
+                RoomType = "Deluxe";
+                TotalRooms = 10;
+                PricePerNight = 4000;
+                break;
+            case 'C':
+                RoomType = "Suite";
+                TotalRooms = 5;
+                PricePerNight = 8000;
+                break;
+        }
+        System.out.println("Room Availability Status");
+        System.out.println("Room Type: " + RoomType);
+        System.out.println("Total Rooms: " + TotalRooms);
+        System.out.println("Available Rooms: ");
+        System.out.println("price per Night: ₱" + PricePerNight);
 
         displayRoom(checkRoomChoice);
     }
@@ -180,7 +204,7 @@ public class HotelReservationSystem {
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
         do {
-            System.out.print("Please input the day you would like to book (1-10): ");
+            System.out.print("Please input the day you would like to book: ");
             bookDay = Integer.parseInt(sc.nextLine());
             System.out.print("Please input how many days you would like to book: ");
             bookTime = Integer.parseInt(sc.nextLine());
