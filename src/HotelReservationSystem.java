@@ -45,10 +45,13 @@ public class HotelReservationSystem {
 
     static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        char choice = ' ';
+    static boolean loop = true;
 
-        while (true) {
+    public static void main(String[] args) {
+        char choice;
+        int choiceType = 0;
+
+        while (loop) {
 
             hrLine();
 
@@ -63,41 +66,27 @@ public class HotelReservationSystem {
                                """);
 
             do {
-                System.out.print("Enter your choice here: ");
-                choice = sc.nextLine().toUpperCase().charAt(0);
-
-                if ("ABCDE".indexOf(choice) == -1) {
-                        invalidChoice();
-                } 
-
-            } while ("ABCDE".indexOf(choice) == -1);
+                enterChoice();
+                choice = inputChar(choiceType);
+            } while (choiceType(choiceType).indexOf(choice) == -1);
 
             switch (choice) {
                 case 'A' -> checkRoomAvailability();
-                case 'B' -> {
-                    System.out.println("""
-                               Please choose a room to reserve:
-                                    A. Standard Room
-                                    B. Deluxe Room
-                                    C. Suite Room
-                               """);
-                    char roomType = sc.nextLine().toUpperCase().charAt(0);
-                    
-                    makeReservation(roomType);
-                } 
+                case 'B' -> makeReservation();
                 case 'C' -> checkInGuest();
                 case 'D' -> checkOutGuest();
                 case 'E' -> thankYou();
             }
 
+            hrLine();
             loop();
 
         }
     }
 
     public static void checkRoomAvailability(){
-        char checkRoomChoice = ' ';
-        char checkRoom = ' ';
+        char checkRoom;
+        int choiceType = 1;
 
         hrLine();
         System.out.println("""
@@ -108,15 +97,9 @@ public class HotelReservationSystem {
                             """);
 
         do {
-            System.out.print("Enter your choice here: ");
-            checkRoomChoice = sc.nextLine().toUpperCase().charAt(0);
-
-            
-            if ("ABC".indexOf(checkRoomChoice) == -1) {
-                invalidChoice();
-            } 
-
-        } while ("ABC".indexOf(checkRoomChoice) == -1);
+            enterChoice();
+            checkRoom = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(checkRoom) == -1);
 
         hrLine();
 
@@ -136,14 +119,26 @@ public class HotelReservationSystem {
         }
     }
 
-    public static void makeReservation(char roomType){
-        String room = " ";
+    public static void makeReservation(){
+        String room = "";
         String[][] arrRoom = null;
 
-        int bookDay, bookTime, roomNum, fee, resFee = 0;
+        char roomType;
+        int choiceType = 1;
 
-        boolean logic = true;
-        
+        int bookDay, bookTime, roomNum, fee = 0, resFee;
+
+        System.out.println("""
+                               Please choose a room to reserve:
+                                    A. Standard Room
+                                    B. Deluxe Room
+                                    C. Suite Room
+                               """);
+        do {
+            enterChoice();
+            roomType = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(roomType) == -1);
+
         switch (roomType) {
             case 'A' -> {
                 room = "Standard";
@@ -158,32 +153,35 @@ public class HotelReservationSystem {
             case 'C' -> {
                 room = "Suite";
                 arrRoom = suiteRoom;
-                
+
                 fee = 8000;
-            }
-            default -> {
-                System.out.println("Invalid room type selected! ");
-                return;
             }
         }
 
-        System.out.println("You have selected " + room + "room");
+        hrLine();
+        System.out.println("You have selected " + room + " room");
+        hrLine();
+
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
+        while (name.length() < 4){
+            name = name+" ";
+        }
+
         do {
             System.out.print("Please input the day you would like to book (1-10): ");
-            bookDay = Integer.parseInt(sc.nextLine());
-            System.out.print("Please input how many days you would like to book: ");
-            bookTime = Integer.parseInt(sc.nextLine());
+            bookDay = inputNum(1,10);
+        } while (numCondition(bookDay,1,10));
 
-            if (bookTime > 11 - bookDay || bookTime < 0 || bookDay < 0) {
-                logic = false;
-                invalidChoice();
-            }
-        } while (!logic);
-        
-        System.out.print("Please input the last number of the room you would like to book: ");
-        roomNum = Integer.parseInt(sc.nextLine());
+        do {
+            System.out.print("Please input how many days you would like to book: ");
+            bookTime = inputNum(1,11-bookDay);
+        } while (numCondition(bookTime,1,11-bookDay));
+
+        do {
+            System.out.print("Please input the last number of the room you would like to book: ");
+            roomNum = inputNum(1,10);
+        } while (numCondition(roomNum,1,10));
 
         resFee = fee * bookTime;
 
@@ -203,55 +201,88 @@ public class HotelReservationSystem {
             arrRoom[roomNum][bookDay + book] = name;
         }
 
-        for (String[] row : arrRoom) {
-            for (String col : row) {
-                System.out.print(col + "\t");
-            }
-            System.out.println();
-        }
-        
+        displayRoom(arrRoom);
+
+        hrLine();
         System.out.println("Booking Successful!");
     }
 
-    public static void hrLine(){
+    static void hrLine(){
         System.out.println("-----------------------------------------");
     }
 
-    public static void invalidChoice(){
+    static void enterChoice(){
+        System.out.print("Enter your choice here: ");
+    }
+
+    static String choiceType(int type){
+        String[] choices = new String[]{"ABCDE", "ABC", "YN"};
+        return choices[type];
+    }
+
+    public static char inputChar(int type){
+        char out = ' ';
+
+        String input = sc.nextLine();
+
+        if (input.length() == 1) {
+            out = input.toUpperCase().charAt(0);
+
+            if (choiceType(type).indexOf(out) == -1) {
+                invalidInput();
+            }
+        } else {
+            invalidInput();
+        }
+        return out;
+    }
+
+    static boolean numCondition(int num, int cond1, int cond2){
+        return (num < cond1 || num > cond2);
+    }
+
+    public static int inputNum(int cond1, int cond2){
+        int num = 0;
+
+        String input = sc.nextLine();
+
+        if (input.matches("\\d+")){
+            num = Integer.parseInt(input);
+
+            if (numCondition(num, cond1, cond2)) {
+                invalidInput();
+            }
+        } else {
+            invalidInput();
+        }
+
+        return num;
+    }
+
+    static void invalidInput(){
         hrLine();
-        System.out.println("Invalid choice. Please try again.");
+        System.out.println("Invalid input. Please try again.");
         hrLine();
     }
 
-    public static void thankYou(){
+    static void thankYou(){
         hrLine();
         System.out.println("Thank you for using our Hotel Reservation System!");
         hrLine();
-        System.exit(0);
+        loop = false;
     }
 
-    public static void loop(){
-        String temploopchoice;
-        char loopchoice = ' ';
+    static void loop(){
+        char loopChoice;
+        int choiceType = 2;
 
         do {
-            hrLine();
             System.out.print("Run System Again? (Y/N): ");
 
-            temploopchoice = sc.nextLine();
+            loopChoice = inputChar(choiceType);
+        } while (choiceType(choiceType).indexOf(loopChoice) == -1);
 
-            if (temploopchoice.length() == 1) {
-                loopchoice = temploopchoice.toUpperCase().charAt(0);
-
-                if (loopchoice != 'Y' && loopchoice != 'N') {
-                    invalidChoice();
-                }
-            } else {
-                invalidChoice();
-            }
-        } while (loopchoice != 'Y' && loopchoice != 'N');
-
-        if (loopchoice == 'N'){
+        if (loopChoice == 'N'){
             thankYou();
         }
     }
