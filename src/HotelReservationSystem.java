@@ -140,7 +140,9 @@ public class HotelReservationSystem {
         String room = " ";
         String[][] arrRoom = null;
 
-        int fee = 0;
+        int bookDay, bookTime, roomNum, fee, resFee = 0;
+
+        boolean logic = true;
         
         switch (roomType) {
             case 'A' -> {
@@ -168,14 +170,22 @@ public class HotelReservationSystem {
         System.out.println("You have selected " + room + "room");
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
-        System.out.print("Please input the day you would like to book (1-10): ");
-        int bookDay = Integer.parseInt(sc.nextLine());
-        System.out.print("Please input how many days you would like to book: ");
-        int bookTime = Integer.parseInt(sc.nextLine());
-        System.out.print("Please input the last number of the room you would like to book: ");
-        int roomNum = Integer.parseInt(sc.nextLine());
+        do {
+            System.out.print("Please input the day you would like to book (1-10): ");
+            bookDay = Integer.parseInt(sc.nextLine());
+            System.out.print("Please input how many days you would like to book: ");
+            bookTime = Integer.parseInt(sc.nextLine());
 
-        int resFee = fee * bookTime;
+            if (bookTime > 11 - bookDay || bookTime < 0 || bookDay < 0) {
+                logic = false;
+                invalidChoice();
+            }
+        } while (!logic);
+        
+        System.out.print("Please input the last number of the room you would like to book: ");
+        roomNum = Integer.parseInt(sc.nextLine());
+
+        resFee = fee * bookTime;
 
         hrLine();
 
