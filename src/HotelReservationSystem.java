@@ -120,16 +120,26 @@ public class HotelReservationSystem {
 
         hrLine();
 
-        switch (checkRoom) {
-            case 'A' -> displayRoom(standardRoom);
-            case 'B' -> displayRoom(deluxeRoom);
-            case 'C' -> displayRoom(suiteRoom);
-        }
+        displayRoom(checkRoomChoice);
     }
 
-    public static void displayRoom(String[][] displayRoom){
-        for (String[] rows : displayRoom) {
-            for (String col : rows) {
+    public static void displayRoom(char room){
+        String[][] arrRoom = null;
+
+        switch (room) {
+            case 'A' -> {
+                arrRoom = standardRoom;
+            }
+            case 'B' -> {
+                arrRoom = deluxeRoom;
+            }
+            case 'C' -> {
+                arrRoom = suiteRoom;
+            }
+        }
+
+        for (String[] row : arrRoom) {
+            for (String col : row) {
                 System.out.print(col + "\t");
             }
             System.out.println();
@@ -158,7 +168,6 @@ public class HotelReservationSystem {
             case 'C' -> {
                 room = "Suite";
                 arrRoom = suiteRoom;
-                
                 fee = 8000;
             }
             default -> {
@@ -261,6 +270,92 @@ public class HotelReservationSystem {
     }
 
     private static void checkOutGuest() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String[][] arrRoom = null;
+        System.out.print("Please select your room type: ");
+        System.out.println("A. Standard Room");
+        System.out.println("B. Deluxe Room");
+        System.out.println("C. Suite Room");
+        char room = sc.nextLine().toUpperCase().charAt(0);
+        System.out.print("Please input guest name: ");
+        String name = sc.nextLine();
+
+        int bookDays = 0;
+        int fee = 0;
+        int serFee = 250;
+        int subFee = fee + serFee;
+        double tax = 0.1 * subFee;
+        double totalAmt = tax + subFee;
+        String roomNum = null;
+
+        switch(room) {
+            case 'A' -> { 
+                arrRoom = standardRoom;
+                fee = 2500;
+            }
+            case 'B' -> {
+                arrRoom = deluxeRoom;
+                fee = 4000;
+            }
+            case 'C' -> {
+                arrRoom = suiteRoom;
+                fee = 8000;
+            }
+        }
+        
+        for (int row = 0; row < arrRoom.length; row++) {
+            for (int col = 0; col < arrRoom[row].length; col++) {
+                
+                boolean check = arrRoom[row][col].equals(name);
+
+                if (check) {
+                    bookDays++;
+                    roomNum = arrRoom[row][0];
+                }
+            }
+        }
+
+        hrLine();
+        System.out.println("Bill Calculation");
+        System.out.println("Subtotal (Room Rate Only): " + fee);
+        System.out.println("Fixed Service Fee: " + serFee);
+        System.out.println("Subtotal + fee: " + subFee);
+        System.out.println("Tax (10%): " + tax);
+        System.out.println("Total amount due: " + totalAmt);
+        System.out.print("Input payment amount: ");
+        double payment = Double.parseDouble(sc.nextLine());
+
+        do { 
+            if (payment < totalAmt) {
+                System.out.println("Insufficient amount!");
+                System.out.print("Please re-enter payment amount: ");
+                payment = Double.parseDouble(sc.nextLine());
+            } 
+
+        } while (payment < totalAmt); 
+
+        double change = payment - totalAmt;
+
+        System.out.println("Change: " + change);
+
+        System.out.println();
+        System.out.println("Receipt");
+        System.out.println("Guest: " + name + " | Room: " + roomNum);
+        System.out.println("Total Amount Due: " + totalAmt);
+        System.out.println("Amount Paid: " + payment);
+        System.out.println("Change: " + change);
+        System.out.println("Checkout complete. Room " + roomNum + " is now available.");
+
+        for (int row = 0; row < arrRoom.length; row++) {
+            for (int col = 0; col < arrRoom[row].length; col++) {
+                
+                boolean check = arrRoom[row][col].equals(name);
+
+                if (check) {
+                    arrRoom[row][col] = "Free";
+                }
+            }
+        }
+
+        displayRoom(room);
     }
 }
