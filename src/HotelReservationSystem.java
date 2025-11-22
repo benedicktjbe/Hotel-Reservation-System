@@ -22,25 +22,25 @@ public class HotelReservationSystem {
 
     static String[][] deluxeRoom = {
             { "     ", "Day 1","Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10" },
-            { "D101", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D102", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D103", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D104", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D105", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D106", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D107", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D108", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D109", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "D110", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
+            { "D201", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D202", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D203", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D204", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D205", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D206", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D207", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D208", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D209", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "D210", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
     };
 
     static String[][] suiteRoom = {
             { "     ", "Day 1","Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10" },
-            { "ST101", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST102", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST103", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST104", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
-            { "ST105", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
+            { "ST301", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "ST302", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "ST303", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "ST304", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" },
+            { "ST305", "Free","Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free", "Free" }
     };
 
     static Scanner sc = new Scanner(System.in);
@@ -74,17 +74,7 @@ public class HotelReservationSystem {
 
             switch (choice) {
                 case 'A' -> checkRoomAvailability();
-                case 'B' -> {
-                    System.out.println("""
-                               Please choose a room to reserve:
-                                    A. Standard Room
-                                    B. Deluxe Room
-                                    C. Suite Room
-                               """);
-                    char roomType = sc.nextLine().toUpperCase().charAt(0);
-                    
-                    makeReservation(roomType);
-                } 
+                case 'B' -> makeReservation();
                 case 'C' -> checkInGuest();
                 case 'D' -> checkOutGuest();
                 case 'E' -> thankYou();
@@ -97,8 +87,8 @@ public class HotelReservationSystem {
 
     public static void checkRoomAvailability(){
         char checkRoomChoice = ' ';
-        String RoomType = "";
-        int TotalRooms = 0, PricePerNight = 0;
+        String RoomType = " ";
+        int TotalRooms = 0, fee = 0;
 
         hrLine();
         System.out.println("""
@@ -122,27 +112,29 @@ public class HotelReservationSystem {
         hrLine();
 
         switch (checkRoomChoice) {
-            case 'A':
+            case 'A' -> {
                 RoomType = "Standard";
                 TotalRooms = 15;
-                PricePerNight = 2500;
-                break;
-            case 'B':
+                fee = 2500;
+            }
+            case 'B' -> {
                 RoomType = "Deluxe";
                 TotalRooms = 10;
-                PricePerNight = 4000;
-                break;
-            case 'C':
+                fee = 4000;
+            }
+            case 'C' -> {
                 RoomType = "Suite";
                 TotalRooms = 5;
-                PricePerNight = 8000;
-                break;
+                fee = 8000;
+            } 
         }
+
         System.out.println("Room Availability Status");
         System.out.println("Room Type: " + RoomType);
         System.out.println("Total Rooms: " + TotalRooms);
         System.out.println("Available Rooms: ");
-        System.out.println("price per Night: ₱" + PricePerNight);
+        System.out.println("Price per Night: " + fee);
+        System.out.println();
 
         displayRoom(checkRoomChoice);
     }
@@ -170,13 +162,22 @@ public class HotelReservationSystem {
         }
     }
 
-    public static void makeReservation(char roomType){
-        String room = " ";
+    public static void makeReservation(){
+        String room = null;
         String[][] arrRoom = null;
 
         int bookDay, bookTime, roomNum, fee, resFee = 0;
 
         boolean logic = true;
+
+        System.out.println("""
+                               Please choose a room to reserve:
+                                    A. Standard Room
+                                    B. Deluxe Room
+                                    C. Suite Room
+                               """);
+
+        char roomType = sc.nextLine().toUpperCase().charAt(0);
         
         switch (roomType) {
             case 'A' -> {
