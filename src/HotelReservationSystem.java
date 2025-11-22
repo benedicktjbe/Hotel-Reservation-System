@@ -190,7 +190,7 @@ public class HotelReservationSystem {
         arrRoom[roomNum][bookDay] = name;
 
         for (int book = 1; book < bookTime; book++) {
-            arrRoom[roomNum][bookDay + 1] = name;
+            arrRoom[roomNum][bookDay + book] = name;
         }
 
         for (String[] row : arrRoom) {
