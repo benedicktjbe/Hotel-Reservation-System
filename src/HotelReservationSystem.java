@@ -139,29 +139,6 @@ public class HotelReservationSystem {
         displayRoom(checkRoomChoice);
     }
 
-    public static void displayRoom(char room){
-        String[][] arrRoom = null;
-
-        switch (room) {
-            case 'A' -> {
-                arrRoom = standardRoom;
-            }
-            case 'B' -> {
-                arrRoom = deluxeRoom;
-            }
-            case 'C' -> {
-                arrRoom = suiteRoom;
-            }
-        }
-
-        for (String[] row : arrRoom) {
-            for (String col : row) {
-                System.out.print(col + "\t");
-            }
-            System.out.println();
-        }
-    }
-
     public static void makeReservation(){
         String room = null;
         String[][] arrRoom = null;
@@ -245,49 +222,6 @@ public class HotelReservationSystem {
         }
         
         System.out.println("Booking Successful!");
-    }
-
-    public static void hrLine(){
-        System.out.println("-----------------------------------------");
-    }
-
-    public static void invalidChoice(){
-        hrLine();
-        System.out.println("Invalid choice. Please try again.");
-        hrLine();
-    }
-
-    public static void thankYou(){
-        hrLine();
-        System.out.println("Thank you for using our Hotel Reservation System!");
-        hrLine();
-        System.exit(0);
-    }
-
-    public static void loop(){
-        String temploopchoice;
-        char loopchoice = ' ';
-
-        do {
-            hrLine();
-            System.out.print("Run System Again? (Y/N): ");
-
-            temploopchoice = sc.nextLine();
-
-            if (temploopchoice.length() == 1) {
-                loopchoice = temploopchoice.toUpperCase().charAt(0);
-
-                if (loopchoice != 'Y' && loopchoice != 'N') {
-                    invalidChoice();
-                }
-            } else {
-                invalidChoice();
-            }
-        } while (loopchoice != 'Y' && loopchoice != 'N');
-
-        if (loopchoice == 'N'){
-            thankYou();
-        }
     }
 
     public static void checkInGuest() {
@@ -529,6 +463,29 @@ public class HotelReservationSystem {
         return startDay;
     }
 
+    public static void displayRoom(char room){
+        String[][] arrRoom = null;
+
+        switch (room) {
+            case 'A' -> {
+                arrRoom = standardRoom;
+            }
+            case 'B' -> {
+                arrRoom = deluxeRoom;
+            }
+            case 'C' -> {
+                arrRoom = suiteRoom;
+            }
+        }
+
+        for (String[] row : arrRoom) {
+            for (String col : row) {
+                System.out.print(col + "\t");
+            }
+            System.out.println();
+        }
+    }
+
     public static int findAvailableRoomRow(String[][] rooms, int startDay, int nights){
         for (int row = 1; row < rooms.length; row++) {
             boolean free = true;
@@ -562,5 +519,48 @@ public class HotelReservationSystem {
             }
         }
         return pay;
+    }
+
+    public static void hrLine(){
+        System.out.println("-----------------------------------------");
+    }
+
+    public static void invalidChoice(){
+        hrLine();
+        System.out.println("Invalid choice. Please try again.");
+        hrLine();
+    }
+
+    public static void thankYou(){
+        hrLine();
+        System.out.println("Thank you for using our Hotel Reservation System!");
+        hrLine();
+        System.exit(0);
+    }
+
+    public static void loop(){
+        String temploopchoice;
+        char loopchoice = ' ';
+
+        do {
+            hrLine();
+            System.out.print("Run System Again? (Y/N): ");
+
+            temploopchoice = sc.nextLine();
+
+            if (temploopchoice.length() == 1) {
+                loopchoice = temploopchoice.toUpperCase().charAt(0);
+
+                if (loopchoice != 'Y' && loopchoice != 'N') {
+                    invalidChoice();
+                }
+            } else {
+                invalidChoice();
+            }
+        } while (loopchoice != 'Y' && loopchoice != 'N');
+
+        if (loopchoice == 'N'){
+            thankYou();
+        }
     }
 }
