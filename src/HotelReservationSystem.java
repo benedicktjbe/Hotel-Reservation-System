@@ -71,7 +71,7 @@ public class HotelReservationSystem {
     }
 
     public static void checkRoomAvailability(){
-        int choiceType = 1, msgType = 1, TotalRooms = 0, PricePerNight = 0;
+        int choiceType = 1, msgType = 1, TotalRooms = 0, roomFee = 0;
         char roomType;
         String RoomType = "";
 
@@ -84,17 +84,17 @@ public class HotelReservationSystem {
             case 'A' -> {
                 RoomType = "Standard";
                 TotalRooms = 15;
-                PricePerNight = 2500;
+                roomFee = 2500;
             }
             case 'B' -> {
                 RoomType = "Deluxe";
                 TotalRooms = 10;
-                PricePerNight = 4000;
+                roomFee = 4000;
             }
             case 'C' -> {
                 RoomType = "Suite";
                 TotalRooms = 5;
-                PricePerNight = 8000;
+                roomFee = 8000;
             }
         }
 
@@ -102,7 +102,7 @@ public class HotelReservationSystem {
         System.out.println("Room Type: " + RoomType);
         System.out.println("Total Rooms: " + TotalRooms);
         System.out.println("Available Rooms: ");
-        System.out.println("Price per Night: ₱" + PricePerNight);
+        System.out.println("Price per Night: ₱" + roomFee);
 
         displayRoom(roomType);
     }
@@ -123,7 +123,7 @@ public class HotelReservationSystem {
     }
 
     public static void makeReservation(){
-        int choiceType = 1, msgType = 2, roomMax = 0, bookDay, bookTime, roomNum, fee = 0, resFee;
+        int choiceType = 1, msgType = 2, roomMax = 0, bookDay, bookTime, roomNum, roomFee = 0, resFee;
         char roomType;
         String guestName, room = "";
 
@@ -135,19 +135,19 @@ public class HotelReservationSystem {
             case 'A' -> {
                 room = "Standard";
                 chosenRoom = standardRoom;
-                fee = 2500;
+                roomFee = 2500;
                 roomMax = 15;
             }
             case 'B' -> {
                 room = "Deluxe";
                 chosenRoom = deluxeRoom;
-                fee = 4000;
+                roomFee = 4000;
                 roomMax = 10;
             }
             case 'C' -> {
                 room = "Suite";
                 chosenRoom = suiteRoom;
-                fee = 8000;
+                roomFee = 8000;
                 roomMax = 5;
             }
         }
@@ -160,7 +160,7 @@ public class HotelReservationSystem {
         bookTime = inputNum(1,10,"Please input how many days you would like to book: ");
         roomNum = inputNum(1,roomMax,"Please input the last number of the room you would like to book: ");
 
-        resFee = fee * bookTime;
+        resFee = roomFee * bookTime;
 
         hrLine();
         System.out.println("Reservation Summary");
@@ -185,7 +185,7 @@ public class HotelReservationSystem {
 
     public static void checkInGuest() {
         int choiceType = 1, msgType = 1, roomNum, roomMax = 0, roomRow = -1, bookedNights, startDay;
-        double roomRate = 0, fee, userPayment, change;
+        double roomRate = 0, roomFee, userPayment, change;
         char roomType;
         String guestName, roomLabel = "", roomLetter = "", roomCode;
 
@@ -255,10 +255,10 @@ public class HotelReservationSystem {
         }
 
         hrLine();
-        fee = roomRate*bookedNights;
-        System.out.println("Total Fee: " + fee);
+        roomFee = roomRate*bookedNights;
+        System.out.println("Total Fee: " + roomFee);
 
-        userPayment = inputPayment(fee);
+        userPayment = inputPayment(roomFee);
         change = userPayment - roomRate;
 
         System.out.println("--- Check-In Successful ---");
@@ -273,7 +273,7 @@ public class HotelReservationSystem {
     }
 
     public static void checkOutGuest() {
-        int choiceType = 1, msgType = 1, bookDays = 0, fee = 0, serFee = 250, subFee = fee + serFee;
+        int choiceType = 1, msgType = 1, bookDays = 0, roomFee = 0, serFee = 250, subFee = roomFee + serFee;
         double tax = 0.1 * subFee, totalAmt = tax + subFee, payment, change;
         char roomType;
         String guestName, roomCode = "";
@@ -288,15 +288,15 @@ public class HotelReservationSystem {
         switch(roomType) {
             case 'A' -> {
                 chosenRoom = standardRoom;
-                fee = 2500;
+                roomFee = 2500;
             }
             case 'B' -> {
                 chosenRoom = deluxeRoom;
-                fee = 4000;
+                roomFee = 4000;
             }
             case 'C' -> {
                 chosenRoom = suiteRoom;
-                fee = 8000;
+                roomFee = 8000;
             }
         }
 
@@ -313,7 +313,7 @@ public class HotelReservationSystem {
         }
 
         System.out.println("--- Bill Calculation ---");
-        System.out.println("Subtotal (Room Rate Only): ₱" + fee);
+        System.out.println("Subtotal (Room Rate Only): ₱" + roomFee);
         System.out.println("Fixed Service Fee: ₱" + serFee);
         System.out.println("Subtotal + fee: ₱" + subFee);
         System.out.println("Tax (10%): ₱" + tax);
