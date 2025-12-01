@@ -47,7 +47,7 @@ public class HotelReservationSystem {
 
     static Scanner sc = new Scanner(System.in);
 
-    static void main() {
+    public static void main(String[] args) {
         while (true) {
             System.out.println("Welcome to the Hotel Reservation System!");
             System.out.println("Please choose an option.");
@@ -131,6 +131,7 @@ public class HotelReservationSystem {
 
     public static void checkIn() {
         char choice;
+        double payment = 0.0;
 
         do {
             System.out.println("Please choose the type of room to reserve");
@@ -170,6 +171,16 @@ public class HotelReservationSystem {
         String name = sc.nextLine();
         System.out.print("Please input the number of days you want to book: ");
         int duration = Integer.parseInt(sc.nextLine());
+        fee = fee * duration;
+
+        do {
+        System.out.print("Please input your payment of " + fee + ": ");
+        payment = Integer.parseInt(sc.nextLine());
+
+            if (payment < fee) {
+            System.out.println("Insufficient payment! Please try again.");
+            }
+        } while (payment < fee);
 
         for(int room = 1; room < chosenRoom.length; room++) {
             int consecutive = 0;
