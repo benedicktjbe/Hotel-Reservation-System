@@ -1,4 +1,84 @@
+/*
+* Project Name: Hotel Reservation System Simulation
+* Date: December 3, 2025, WS 8:30-10:00 AM (Laboratory) / 1:30-2:30 PM (Lecture)
+* Instructor: Janet V. Itliong
+*
+* Group 6 Members:
+* 1. Estangki, Joshua
+* 2. Mendoza, Kim
+* 3. Mercado, Dylan
+* 4. Ramos, Dylan
+* 5. Requillas, Ava
+* 6. Vailoces, Jamilla
+* 7. Yocogan, Eugene
+
+*/
+
 import java.util.Scanner;
+
+/*
+Algorithm: Hotel Reservation System
+
+1. Initialize the Hotel Reservation System with three types of rooms: 
+   Standard, Deluxe, and Suite, each represented as a 2D array to track 
+   room numbers and occupancy for days 1–10.
+
+2. Display a main menu allowing the user to select one of the following options:
+   A. Check Room Availability
+   B. Make New Reservation
+   C. Check-In Guest
+   D. Check-Out Guest
+   E. Exit
+
+3. Create separate methods for each menu option. Include a displayRoom() 
+   method to show room status for the selected room type.
+
+4. Check Room Availability:
+   4.1 Ask the user to choose a room type.
+   4.2 Display the room status, including each room’s occupancy for days 1–10.
+   4.3 Display total rooms, available rooms, and occupied rooms for the selected type.
+
+5. Make a New Reservation:
+   5.1 Ask the user for the room type and display its status.
+   5.2 Prompt the user to input:
+       - Guest name
+       - Room number
+       - Number of days to book
+       - Specific day(s) for booking
+   5.3 Validate all inputs:
+       - Guest name cannot be empty or already in use
+       - Room number must be within valid range
+       - Number of days must be 1–10
+       - Selected days must not already be occupied
+       - If invalid, prompt the user to re-enter the input
+   5.4 Update the room status to mark booked days as occupied by the guest.
+
+6. Check-In Guest:
+   6.1 Ask for room type, guest name, and duration of stay.
+   6.2 Validate all inputs; prompt again if invalid.
+   6.3 Display total room fee based on room type and duration.
+   6.4 Prompt the user for payment and validate if it is sufficient.
+   6.5 If payment is successful, reserve an available room for the user.
+       Otherwise, prompt again until payment is sufficient.
+
+7. Check-Out Guest:
+   7.1 Ask for room type and guest name.
+   7.2 Validate that the guest exists; if not, prompt again.
+   7.3 Calculate the total bill including:
+       - Room fee (based on duration)
+       - Service fee of ₱250
+       - Tax of 10%
+   7.4 Prompt the user to pay the total amount and validate payment.
+   7.5 If payment is successful, free up the reserved days in the room array.
+       Otherwise, prompt again until payment is sufficient.
+
+8. Exit:
+   8.1 Thank the user for using the system and terminate the program.
+
+9. Loop:
+   9.1 The program continues to loop through the main menu until the user 
+       chooses the exit option.
+*/
 
 public class HotelReservationSystem {
     static String[][] standardRoom = {
@@ -49,15 +129,19 @@ public class HotelReservationSystem {
 
     public static void main(String[] args) {
         while (true) {
+            System.out.println("=========================================");
             System.out.println("Welcome to the Hotel Reservation System!");
+            System.out.println();
             System.out.println("Please choose an option.");
             System.out.println("A. Check room availability");
             System.out.println("B. Make new reservation");
             System.out.println("C. Check-In Guest");
             System.out.println("D. Check-Out Guest");
             System.out.println("E. Exit");
+            System.out.println("=========================================");
             System.out.print("Enter your choice here: ");
             char option = sc.nextLine().toUpperCase().charAt(0);
+            System.out.println();
 
             switch (option) {
                 case 'A' -> checkRoom();
@@ -76,12 +160,15 @@ public class HotelReservationSystem {
         char choice;
 
         do {
+            System.out.println("================================");
             System.out.println("Please choose a room to check");
             System.out.println("A. Standard Room");
             System.out.println("B. Deluxe Room");
             System.out.println("C. Suite Room");
+            System.out.println("================================");
             System.out.print("Enter your choice here: ");
             choice = sc.nextLine().toUpperCase().charAt(0);
+            System.out.println();
 
             if (choice != 'A' && choice!= 'B' && choice != 'C') {
                 System.out.println("Invalid input! Please input a valid choice (A-C)");
@@ -96,12 +183,15 @@ public class HotelReservationSystem {
         char choice;
 
         do {
+            System.out.println("================================");
             System.out.println("Please choose the type of room to reserve");
             System.out.println("A. Standard Room");
             System.out.println("B. Deluxe Room");
             System.out.println("C. Suite Room");
+            System.out.println("================================");
             System.out.print("Enter your choice here: ");
             choice = sc.nextLine().toUpperCase().charAt(0);
+            System.out.println();
 
             if (choice != 'A' && choice!= 'B' && choice != 'C') {
                 System.out.println("Invalid input! Please input a valid choice (A-C)");
@@ -205,11 +295,14 @@ public class HotelReservationSystem {
         double payment = 0.0;
 
         do {
+            System.out.println("================================");
             System.out.println("Please choose the type of room to reserve");
             System.out.println("A. Standard Room");
             System.out.println("B. Deluxe Room");
             System.out.println("C. Suite Room");
+            System.out.println("================================");
             System.out.print("Enter your choice here: ");
+            System.out.println();
             choice = sc.nextLine().toUpperCase().charAt(0);
 
             if (choice != 'A' && choice!= 'B' && choice != 'C') {
@@ -321,12 +414,15 @@ public class HotelReservationSystem {
         char choice;
 
         do {
+            System.out.println("================================");
             System.out.println("Please input the room type you have booked:");
             System.out.println("A. Standard Room");
             System.out.println("B. Deluxe Room");
             System.out.println("C. Suite Room");
+            System.out.println("================================");
             System.out.print("Input your choice here: ");
             choice = sc.nextLine().toUpperCase().charAt(0);
+            System.out.println();
 
             if (choice != 'A' && choice!= 'B' && choice != 'C') {
                 System.out.println("Invalid input! Please input a valid choice (A-C)");
@@ -398,9 +494,10 @@ public class HotelReservationSystem {
         int roomFee = duration * fee;
         int subFee = roomFee + serFee;
         double tax = subFee * 0.1;
-        double totalAmt = tax;
+        double totalAmt = tax + serFee;
         double finAmount = 0.0;
 
+        System.out.println("======================================================");
         System.out.println("Bill Calculation");
         System.out.println("Subtotal: " + roomFee + " (Paid)");
         System.out.println("Service Charge: " + serFee);
@@ -415,12 +512,17 @@ public class HotelReservationSystem {
 
         System.out.println("Payment: " + finAmount);
         System.out.println("Change: " + (finAmount - totalAmt));
+        System.out.println("======================================================");
+        System.out.println();
 
+        System.out.println("======================================================");
         System.out.println("Receipt");
         System.out.println("Guest: " + name + " | Room: " + room);
         System.out.println("Total Amount Due: " + totalAmt);
         System.out.println("Amount paid " + finAmount);
         System.out.println("Change: " + (totalAmt - finAmount));
+        System.out.println("Check out complete. Room " + room + "is now available!");
+        System.out.println("======================================================");
     }
 
     public static void displayRoom(char choice) {
@@ -439,6 +541,8 @@ public class HotelReservationSystem {
             }
         }
 
+        System.out.println("===================================================================================================");
+
         for(String[] row : chosenRoom) {
             for(String col : row) {
                 System.out.print(col + "\t");
@@ -446,21 +550,27 @@ public class HotelReservationSystem {
             System.out.println();
         }
 
+        System.out.println("===================================================================================================");
+        System.out.println();
+
         int freeRoomCount = 0;
         int occRoomCount = 0;
+
         for (int row = 1; row < chosenRoom.length; row++) {
             boolean isRoomFree = true;
-                for (int col = 1; col < chosenRoom[row].length; col++){
-                    if (!chosenRoom[row][col].equalsIgnoreCase("Free")) {
-                        isRoomFree = false;
-                        break;
-                    }
+
+            for (int col = 1; col < chosenRoom[row].length; col++){
+                if (chosenRoom[row][col].equalsIgnoreCase("Free")) {
+                    isRoomFree = false;
+                    break;
                 }
+            }
+
             if (isRoomFree) {
-                    freeRoomCount++;
+                    occRoomCount++;
             }
             if (!isRoomFree) {
-                    occRoomCount++;
+                    freeRoomCount++;
             }
         }
 
