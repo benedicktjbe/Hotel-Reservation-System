@@ -115,14 +115,29 @@ public class HotelReservationSystem {
         String name = sc.nextLine();
         System.out.print("Please input the last number of the room you would like to book: ");
         int roomNum = Integer.parseInt(sc.nextLine());
-        System.out.print("Please input the day you want to book: ");
-        int day = Integer.parseInt(sc.nextLine());
-        System.out.print("Please input the number of days you want to book: ");
-        int duration = Integer.parseInt(sc.nextLine());
+    
+        boolean check;
+        int day = 0;
+        int duration = 0;
 
-        chosenRoom[roomNum][day] = name;
+        do { 
+            check = true;
 
-        for(int book = 1; book < duration; book++) {
+            System.out.print("Please input the day you want to book: ");
+            day = Integer.parseInt(sc.nextLine());
+            System.out.print("Please input the number of days you want to book: ");
+            duration = Integer.parseInt(sc.nextLine());
+
+            for(int book = 0; book < duration; book++) {
+                if (!chosenRoom[roomNum][day + book].equals("Free")) {
+                    System.out.println("Someone has already occupied the day you are trying to book! Please make a reservation for another day.");
+                    check = false;
+                    break;
+                } 
+            }
+        } while (check == false);
+
+        for(int book = 0; book < duration; book++) {
             chosenRoom[roomNum][day + book] = name;
         }
 
