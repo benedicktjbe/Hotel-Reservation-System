@@ -131,7 +131,7 @@ public class HotelReservationSystem {
         do {
             if (chosenRoom.length == 16) {
                 System.out.print("Please input the last number of the room you would like to book. For rooms S110 - S115, please input the last 2 digits: ");
-            } else if (chosenRoom.length > 16) {
+            } else if (chosenRoom.length < 16) {
                 System.out.print("Please input the last number of the room you would like to book: ");
             }
 
