@@ -301,7 +301,15 @@ public class HotelReservationSystem {
             }
         }
 
+        for(String[] row : chosenRoom) {
+            for(String col : row) {
+                System.out.print(col + "\t");
+            }
+            System.out.println();
+        }
+
             int freeRoomCount = 0;
+            int occRoomCount = 0;
             for (int row = 1; row < chosenRoom.length; row++) {
                 boolean isRoomFree = true;
                     for (int col = 1; col < chosenRoom[row].length; col++){
@@ -313,25 +321,33 @@ public class HotelReservationSystem {
                 if (isRoomFree) {
                     freeRoomCount++;
                 }
+                if (!isRoomFree) {
+                    occRoomCount++;
+                }
             }
+
+
             int ttlRooms = chosenRoom.length - 1;
 
             if (choice == 'A') {
                 System.out.println("Room Type: Standard");
                 System.out.println("Total Rooms: " + ttlRooms);
                 System.out.println("Available Rooms: " + freeRoomCount);
+                System.out.println("Occupied Rooms: " + occRoomCount);
                 System.out.println("Price per night: P2500\n");
             }
             if (choice == 'B') {
                 System.out.println("Room Type: Deluxe");
                 System.out.println("Total Rooms: " + ttlRooms);
                 System.out.println("Available Rooms: " + freeRoomCount);
+                System.out.println("Occupied Rooms: " + occRoomCount);
                 System.out.println("Price per night: P4000\n");
             }
             if (choice == 'C') {
                 System.out.println("Room Type: Suite");
                 System.out.println("Total Rooms: " + ttlRooms);
                 System.out.println("Available Rooms: " + freeRoomCount);
+                System.out.println("Occupied Rooms: " + occRoomCount);
                 System.out.println("Price per night: P8000 \n");
             }
         }
