@@ -263,18 +263,9 @@ public class HotelReservationSystem {
             }
         } while (duration < 1 || duration > 10);
 
-        fee = fee * duration;
-
-        do {
-        System.out.print("Please input your payment of " + fee + ": ");
-        payment = Integer.parseInt(sc.nextLine());
-
-            if (payment < fee) {
-            System.out.println("Insufficient payment! Please try again.");
-            }
-        } while (payment < fee);
-
         boolean check = false;
+        boolean avail = true;
+
         for (int day = 1; day <= 10 - duration + 1; day++) {
             for(int room = 1; room < chosenRoom.length; room++) {
                 int consecutive = 0;
@@ -306,9 +297,23 @@ public class HotelReservationSystem {
             System.out.println("Successfully booked!");
         } else {
             System.out.println("Sorry! No rooms are available to accomodate your schedule!");
+            avail = false;
         }
 
-        displayRoom(choice);
+        fee = fee * duration;
+        if (avail == true) {
+            do {
+                System.out.print("Please input your payment of " + fee + ": ");
+                payment = Integer.parseInt(sc.nextLine());
+
+                if (payment < fee) {
+                System.out.println("Insufficient payment! Please try again.");
+                }
+            } while (payment < fee);
+
+            displayRoom(choice);
+
+        }
     }
 
     public static void checkOut() {
@@ -356,13 +361,25 @@ public class HotelReservationSystem {
         int duration = 0;
         String room = null;
 
-        for (int row = 0; row < chosenRoom.length; row++) {
-            for (int col = 0; col < chosenRoom[row].length; col++) {
-                if (chosenRoom[row][col].equals(name)) {
-                    duration++;
-                    room = chosenRoom[row][0];
-                    chosenRoom[row][col] = "Free";
+        for (int row = 1; row < chosenRoom.length; row++) {
+            int bookedDays = 0;
+
+            for (int col = 1; col < chosenRoom[row].length; col++) {
+                if (chosenRoom[row][col].equalsIgnoreCase(name)) {
+                    bookedDays++;
                 }
+            }
+
+            if (bookedDays > 0) {
+                room = chosenRoom[row][0];
+                duration = bookedDays;
+
+                for (int column = 1; column < chosenRoom[row].length; column++){
+                    if (chosenRoom[row][column].equalsIgnoreCase(name)) {
+                        chosenRoom[row][column] = "Free";
+                    }
+                }
+                break;
             }
         }
 
