@@ -111,8 +111,20 @@ public class HotelReservationSystem {
 
         displayRoom(choice);
 
-        System.out.print("Please input your name: ");
-        String name = sc.nextLine();
+        String name;
+
+        do {
+            System.out.print("Please input your name: ");
+            name = sc.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Guest name cannot be empty!");
+            } else if (isGuestNameTaken(name)) {
+                System.out.println("Guest name is already in use! Please use a different name!");
+            }
+
+        } while (name.isEmpty() || isGuestNameTaken(name));
+
         System.out.print("Please input the last number of the room you would like to book: ");
         int roomNum = Integer.parseInt(sc.nextLine());
     
@@ -196,8 +208,19 @@ public class HotelReservationSystem {
             }
         }
 
-        System.out.print("Please input your name: ");
-        String name = sc.nextLine();
+        String name;
+
+        do {
+            System.out.print("Please input your name: ");
+            name = sc.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Guest name cannot be empty!");
+            } else if (isGuestNameTaken(name)) {
+                System.out.println("Guest name is already in use! Please use a different name!");
+            }
+
+        } while (name.isEmpty() || isGuestNameTaken(name));
 
         int duration = 0;
 
@@ -298,8 +321,19 @@ public class HotelReservationSystem {
             }
         }
 
-        System.out.print("Please input your name: ");
-        String name = sc.nextLine();
+        String name;
+
+        do {
+            System.out.print("Please input your name: ");
+            name = sc.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Guest name cannot be empty!");
+            } else if (isGuestNameTaken(name)) {
+                System.out.println("Guest name is already in use! Please use a different name!");
+            }
+
+        } while (name.isEmpty() || isGuestNameTaken(name));
 
         int duration = 0;
         String room = null;
@@ -406,4 +440,16 @@ public class HotelReservationSystem {
             System.out.println("Price per night: P8000 \n");
         }
     }
+
+    public static boolean isGuestNameTaken(String name) {
+    for (int rows = 1; rows < chosenRoom.length; rows++) {
+        for (int col = 1; col < chosenRoom[rows].length; col++) {
+            if (standardRoom[rows][col].equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+    }
+    return false;
+    }
+
 }
