@@ -355,38 +355,45 @@ public class HotelReservationSystem {
             }
         }
 
-        System.out.print("Please input your name: ");
-        String name = sc.nextLine().trim();
-
         int duration = 0;
         String room = null;
+        String name;
 
-        for (int row = 1; row < chosenRoom.length; row++) {
-            int bookedDays = 0;
+        do { 
+            System.out.print("Please input your name: ");
+            name = sc.nextLine().trim();
 
-            for (int col = 1; col < chosenRoom[row].length; col++) {
-                if (chosenRoom[row][col].equalsIgnoreCase(name)) {
-                    bookedDays++;
-                }
-            }
+            duration = 0;
+            room = null;
 
-            if (bookedDays > 0) {
-                room = chosenRoom[row][0];
-                duration = bookedDays;
+            for (int row = 1; row < chosenRoom.length; row++) {
+                int bookedDays = 0;
 
-                for (int column = 1; column < chosenRoom[row].length; column++){
-                    if (chosenRoom[row][column].equalsIgnoreCase(name)) {
-                        chosenRoom[row][column] = "Free";
+                for (int col = 1; col < chosenRoom[row].length; col++) {
+                    if (chosenRoom[row][col].equalsIgnoreCase(name)) {
+                        bookedDays++;
                     }
                 }
-                break;
-            }
-        }
 
-        if (duration == 0) {
-            System.out.println("Guest not found.");
-            return;
-        }
+                if (bookedDays > 0) {
+                    room = chosenRoom[row][0];
+                    duration = bookedDays;
+
+                    for (int column = 1; column < chosenRoom[row].length; column++){
+                        if (chosenRoom[row][column].equalsIgnoreCase(name)) {
+                            chosenRoom[row][column] = "Free";
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (duration == 0) {
+                System.out.print("Guest not found! ");
+            }
+        } while (duration == 0);
+        
+        
 
         int roomFee = duration * fee;
         int subFee = roomFee + serFee;
@@ -407,7 +414,7 @@ public class HotelReservationSystem {
         } while (finAmount < totalAmt);
 
         System.out.println("Payment: " + finAmount);
-        System.out.println("Change: " + (totalAmt - finAmount));
+        System.out.println("Change: " + (finAmount - totalAmt));
 
         System.out.println("Receipt");
         System.out.println("Guest: " + name + " | Room: " + room);
