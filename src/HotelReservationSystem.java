@@ -198,8 +198,18 @@ public class HotelReservationSystem {
 
         System.out.print("Please input your name: ");
         String name = sc.nextLine();
-        System.out.print("Please input the number of days you want to book: ");
-        int duration = Integer.parseInt(sc.nextLine());
+
+        int duration = 0;
+
+        do {
+            System.out.print("Please input the number of days you want to book: ");
+            duration = Integer.parseInt(sc.nextLine());
+
+            if (duration < 1 || duration > 10) {
+                System.out.println("Duration must be between 1-10 days only!");
+            }
+        } while (duration < 1 || duration > 10);
+
         fee = fee * duration;
 
         do {
