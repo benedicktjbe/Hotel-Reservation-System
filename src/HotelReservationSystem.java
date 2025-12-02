@@ -285,6 +285,33 @@ public class HotelReservationSystem {
             chosenRoom[roomNum][booked] = name;
         }
 
+        int fee = 0;
+
+        switch (choice) {
+            case 'A' -> {
+                fee = 2500;
+            }
+            case 'B' -> {
+                fee = 4000;
+            }
+            case 'C' -> {
+                fee = 8000;
+            }
+            
+        }
+
+        int roomFee = duration * fee;
+        double payment = 0.0;
+
+        do { 
+            System.out.print("Please input your payment for the fee of " + roomFee + ": ");
+            payment = Double.parseDouble(sc.nextLine());
+
+            if (payment < roomFee) {
+                System.out.println("Invalid amount! Payment should be greater than the fee!");
+            }
+        } while (payment < roomFee);
+
         System.out.println("Reservation successful!");
         displayRoom(choice);
     }
@@ -397,7 +424,7 @@ public class HotelReservationSystem {
         if (avail == true) {
             do {
                 System.out.print("Please input your payment of " + fee + ": ");
-                payment = Integer.parseInt(sc.nextLine());
+                payment = Double.parseDouble(sc.nextLine());
 
                 if (payment < fee) {
                 System.out.println("Insufficient payment! Please try again.");
