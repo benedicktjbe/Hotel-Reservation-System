@@ -304,6 +304,11 @@ public class HotelReservationSystem {
             }
         }
 
+        if (duration == 0) {
+            System.out.println("Guest not found.");
+            return;
+        }
+
         int roomFee = duration * fee;
         int subFee = roomFee + serFee;
         double tax = subFee * 0.1;
