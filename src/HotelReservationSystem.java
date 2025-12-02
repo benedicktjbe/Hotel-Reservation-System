@@ -125,8 +125,17 @@ public class HotelReservationSystem {
 
         } while (name.isEmpty() || isGuestNameTaken(name));
 
-        System.out.print("Please input the last number of the room you would like to book: ");
-        int roomNum = Integer.parseInt(sc.nextLine());
+        int roomNum = 0;
+        int max = chosenRoom.length - 1;
+
+        do {
+            System.out.print("Please input the last number of the room you would like to book: ");
+            roomNum = Integer.parseInt(sc.nextLine());
+
+            if (roomNum < 1 || roomNum > max) {
+                System.out.println("Invalid Input! Room number must only be between 1-" + max);
+            }
+        } while (roomNum < 1 || roomNum > max);
     
         boolean check;
         int day = 0;
@@ -276,7 +285,7 @@ public class HotelReservationSystem {
         if(check) {
             System.out.println("Successfully booked!");
         } else {
-            System.out.println("Sorry!");
+            System.out.println("Sorry! No rooms are available to accomodate your schedule!");
         }
 
         displayRoom(choice);
@@ -321,19 +330,8 @@ public class HotelReservationSystem {
             }
         }
 
-        String name;
-
-        do {
-            System.out.print("Please input your name: ");
-            name = sc.nextLine().trim();
-
-            if (name.isEmpty()) {
-                System.out.println("Guest name cannot be empty!");
-            } else if (isGuestNameTaken(name)) {
-                System.out.println("Guest name is already in use! Please use a different name!");
-            }
-
-        } while (name.isEmpty() || isGuestNameTaken(name));
+        System.out.print("Please input your name: ");
+        String name = sc.nextLine().trim();
 
         int duration = 0;
         String room = null;
@@ -383,9 +381,15 @@ public class HotelReservationSystem {
 
     public static void displayRoom(char choice) {
         switch(choice) {
-            case 'A' -> chosenRoom = standardRoom;
-            case 'B' -> chosenRoom = deluxeRoom;
-            case 'C' -> chosenRoom = suiteRoom;
+            case 'A' -> {
+                chosenRoom = standardRoom;
+            }
+            case 'B' -> {
+                chosenRoom = deluxeRoom;
+            }
+            case 'C' -> {
+                chosenRoom = suiteRoom;
+            }
             default -> {
                 System.out.print("Invalid input! Please input a valid choice (A-C): ");
             }
@@ -444,12 +448,11 @@ public class HotelReservationSystem {
     public static boolean isGuestNameTaken(String name) {
     for (int rows = 1; rows < chosenRoom.length; rows++) {
         for (int col = 1; col < chosenRoom[rows].length; col++) {
-            if (standardRoom[rows][col].equalsIgnoreCase(name)) {
+            if (chosenRoom[rows][col].equalsIgnoreCase(name)) {
                 return true;
             }
         }
     }
     return false;
     }
-
 }
