@@ -128,13 +128,27 @@ public class HotelReservationSystem {
             System.out.print("Please input the number of days you want to book: ");
             duration = Integer.parseInt(sc.nextLine());
 
-            for(int book = 0; book < duration; book++) {
-                if (!chosenRoom[roomNum][day + book].equals("Free")) {
-                    System.out.println("Someone has already occupied the day you are trying to book! Please make a reservation for another day.");
-                    check = false;
-                    break;
-                } 
+            if (day < 1 || day > 10) {
+                System.out.println("Invalid Input! Day must be between 1-10!");
+                check = false;
+            } else if (duration < 1){
+                System.out.println("Invalid Input! Duration must be greater than 0!");
+                check = false;
+            } else if (duration + day > 11) {
+                System.out.println("Invalid input! The reservation end day exceeds the 10-day limit!");
+                check = false;
             }
+
+            if (check == true) {
+                for(int book = 0; book < duration; book++) {
+                    if (!chosenRoom[roomNum][day + book].equals("Free")) {
+                        System.out.println("Someone has already occupied the day you are trying to book! Please make a reservation for another day.");
+                        check = false;
+                        break;
+                    } 
+                }
+            }
+            
         } while (check == false);
 
         for(int book = 0; book < duration; book++) {
