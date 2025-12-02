@@ -129,7 +129,12 @@ public class HotelReservationSystem {
         int max = chosenRoom.length - 1;
 
         do {
-            System.out.print("Please input the last number of the room you would like to book: ");
+            if (chosenRoom.length == 16) {
+                System.out.print("Please input the last number of the room you would like to book. For rooms S110 - S115, please input the last 2 digits: ");
+            } else if (chosenRoom.length > 16) {
+                System.out.print("Please input the last number of the room you would like to book: ");
+            }
+
             roomNum = Integer.parseInt(sc.nextLine());
 
             if (roomNum < 1 || roomNum > max) {
@@ -254,27 +259,26 @@ public class HotelReservationSystem {
         } while (payment < fee);
 
         boolean check = false;
+        for (int day = 1; day <= 10 - duration + 1; day++) {
+            for(int room = 1; room < chosenRoom.length; room++) {
+                int consecutive = 0;
 
-        for(int room = 1; room < chosenRoom.length; room++) {
-            int consecutive = 0;
-
-            for(int day = 1; day < chosenRoom[room].length; day++) {
-                if(chosenRoom[room][day].equals("Free")) {
-                    consecutive++;
-                } else {
-                    consecutive = 0;
+                for(int bookDay = 0; bookDay < duration; bookDay++) {
+                    if(chosenRoom[room][day + bookDay].equals("Free")){
+                        consecutive++;
+                    } else {
+                        break;
+                    }
                 }
 
                 if(consecutive == duration) {
-                    int startDay = day - duration + 1;
-
-                    for(int book = startDay; book < startDay + duration; book++) {
-                        chosenRoom[room][book] = name;
+                    for (int book = 0; book < duration; book++) {
+                        chosenRoom[room][day + book] = name;
                     }
                     check = true;
                     break;
                 }
-            }
+        }
 
             if(check){ 
                 break;
