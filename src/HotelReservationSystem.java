@@ -211,6 +211,8 @@ public class HotelReservationSystem {
             }
         } while (payment < fee);
 
+        boolean check = false;
+
         for(int room = 1; room < chosenRoom.length; room++) {
             int consecutive = 0;
 
@@ -227,8 +229,21 @@ public class HotelReservationSystem {
                     for(int book = startDay; book < startDay + duration; book++) {
                         chosenRoom[room][book] = name;
                     }
+                    check = true;
+                    break;
                 }
             }
+
+            if(check){ 
+                break;
+
+            }
+        }
+
+        if(check) {
+            System.out.println("Successfully booked!");
+        } else {
+            System.out.println("Sorry!");
         }
 
         displayRoom(choice);
