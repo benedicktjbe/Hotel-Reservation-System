@@ -398,13 +398,13 @@ public class HotelReservationSystem {
         int roomFee = duration * fee;
         int subFee = roomFee + serFee;
         double tax = subFee * 0.1;
-        double totalAmt = subFee + tax;
+        double totalAmt = tax;
         double finAmount = 0.0;
 
         System.out.println("Bill Calculation");
-        System.out.println("Subtotal: " + roomFee);
+        System.out.println("Subtotal: " + roomFee + " (Paid)");
         System.out.println("Service Charge: " + serFee);
-        System.out.println("Subtotal + Fee: " + subFee);
+        System.out.println("Subtotal + Fee: " + subFee + " (Room Fee already paid)");
         System.out.println("Tax: " + tax);
         System.out.println("Total Amount Due: " + totalAmt);
 
