@@ -141,48 +141,64 @@ public class HotelReservationSystem {
                 System.out.println("Invalid Input! Room number must only be between 1-" + max);
             }
         } while (roomNum < 1 || roomNum > max);
-    
-        boolean check;
-        int day = 0;
+
         int duration = 0;
 
         do { 
-            check = true;
-
-            System.out.print("Please input the day you want to book: ");
-            day = Integer.parseInt(sc.nextLine());
             System.out.print("Please input the number of days you want to book: ");
             duration = Integer.parseInt(sc.nextLine());
 
+            if (duration < 1 || duration > 10){
+                System.out.println("Invalid Input! Duration must be between 1-10!");
+            } 
+        } while (duration < 1 || duration > 10);
+
+        int[] selectedDays = new int[duration];
+
+        for (int book = 0; book < duration; book++) {
+
+        int day = 0;
+        boolean validDay = false;
+
+        do {
+            System.out.print("Date " + (book + 1) + " (choose a day 1-10): ");
+            day = Integer.parseInt(sc.nextLine());
+
+            validDay = true;
+
             if (day < 1 || day > 10) {
-                System.out.println("Invalid Input! Day must be between 1-10!");
-                check = false;
-            } else if (duration < 1){
-                System.out.println("Invalid Input! Duration must be greater than 0!");
-                check = false;
-            } else if (duration + day > 11) {
-                System.out.println("Invalid input! The reservation end day exceeds the 10-day limit!");
-                check = false;
+                System.out.println("Invalid day! Please choose between 1-10.");
+                validDay = false;
+                continue;
             }
 
-            if (check == true) {
-                for(int book = 0; book < duration; book++) {
-                    if (!chosenRoom[roomNum][day + book].equals("Free")) {
-                        System.out.println("Someone has already occupied the day you are trying to book! Please make a reservation for another day.");
-                        check = false;
-                        break;
-                    } 
+            for (int checkDay = 0; checkDay < book; checkDay++) {
+                if (selectedDays[checkDay] == day) {
+                    System.out.println("You already selected this day. Please choose another day.");
+                    validDay = false;
+                    break;
                 }
             }
-            
-        } while (check == false);
 
-        for(int book = 0; book < duration; book++) {
-            chosenRoom[roomNum][day + book] = name;
+            if (validDay && !chosenRoom[roomNum][day].equals("Free")) {
+                System.out.println("Day " + day + " is already occupied! Choose another day.");
+                validDay = false;
+            }
+
+        } while (!validDay);
+
+        selectedDays[book] = day;
+    }
+
+
+        for (int booked : selectedDays) {
+            chosenRoom[roomNum][booked] = name;
         }
 
+        System.out.println("Reservation successful!");
         displayRoom(choice);
     }
+
 
     public static void checkIn() {
         char choice;
